@@ -1,6 +1,7 @@
 package br.com.mildevs.apipecas.service;
 
 import br.com.mildevs.apipecas.dto.PecaCreateDTO;
+import br.com.mildevs.apipecas.dto.PecaUpdateDTO;
 import br.com.mildevs.apipecas.entity.PecaEntity;
 import br.com.mildevs.apipecas.error.NumeroNegativoException;
 import br.com.mildevs.apipecas.repository.PecaRepository;
@@ -35,5 +36,30 @@ public class PecaService {
     repository.save(pecaEntity);
 
     return novaPeca;
+  }
+
+  public PecaUpdateDTO atualizaPeca(
+    PecaUpdateDTO pecaAtualizada,
+    long idPecaAtualizada
+  ) throws NumeroNegativoException {
+    if (pecaAtualizada.getPrecoCusto() < 0) {
+      throw new NumeroNegativoException(
+        "O preço de custo deve ser um valor maior ou igual a zero"
+      );
+    } else if (pecaAtualizada.getPrecoVenda() < 0) {
+      throw new NumeroNegativoException(
+        "O preço de venda deve ser um valor maior ou igual a zero"
+      );
+    } else if (pecaAtualizada.getQuantidadeEstoque() < 0) {
+      throw new NumeroNegativoException(
+        "A quantidade em estoque deve ser um valor maior ou igual a zero"
+      );
+    }
+
+    PecaEntity pecaEntity = repository.findById(idPecaAtualizada).get();
+    BeanUtils.copyProperties(pecaAtualizada, pecaEntity);
+    repository.save(pecaEntity);
+
+    return pecaAtualizada;
   }
 }
