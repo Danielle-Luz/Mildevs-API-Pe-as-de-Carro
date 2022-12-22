@@ -67,11 +67,9 @@ public class PecaService {
     return pecaAtualizada;
   }
 
-  public List<PecaGetResponseDTO> buscaPecaPorNome(String nomeProcurado) {
-    List<Optional<PecaEntity>> pecasEncontradasOptional = repository.findByNomeLike(
-      nomeProcurado
-    );
-
+  private List<PecaGetResponseDTO> converteListaOptionalParaListaPecasResponseDTO(
+    List<Optional<PecaEntity>> pecasEncontradasOptional
+  ) {
     List<PecaGetResponseDTO> pecasEncontradasResponse = new ArrayList<>();
 
     for (Optional<PecaEntity> pecaOptional : pecasEncontradasOptional) {
@@ -83,5 +81,27 @@ public class PecaService {
     }
 
     return pecasEncontradasResponse;
+  }
+
+  public List<PecaGetResponseDTO> buscaPecaPorNome(String nomeProcurado) {
+    List<Optional<PecaEntity>> pecasEncontradasOptional = repository.findByNomeLike(
+      nomeProcurado
+    );
+
+    return converteListaOptionalParaListaPecasResponseDTO(
+      pecasEncontradasOptional
+    );
+  }
+
+  public List<PecaGetResponseDTO> buscarPecaPeloModeloCarro(
+    String modeloCarroBuscado
+  ) {
+    List<Optional<PecaEntity>> pecasEncontradasOptional = repository.findByModeloCarro(
+      modeloCarroBuscado
+    );
+
+    return converteListaOptionalParaListaPecasResponseDTO(
+      pecasEncontradasOptional
+    );
   }
 }
