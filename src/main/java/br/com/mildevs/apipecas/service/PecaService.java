@@ -104,4 +104,16 @@ public class PecaService {
       pecasEncontradasOptional
     );
   }
+
+  public List<PecaGetResponseDTO> buscarPecaPelaCategoria(
+    String categoriaBuscada
+  ) {
+    List<Optional<PecaEntity>> pecasEncontradasOptional = repository.findByCategoria(
+      categoriaBuscada
+    );
+
+    return converteListaOptionalParaListaPecasResponseDTO(
+      pecasEncontradasOptional
+    );
+  }
 }
