@@ -14,4 +14,10 @@ public class GlobalExceptionHandler {
   public ErroDTO handleNumeroNegativoException(NumeroNegativoException e) {
     return new ErroDTO(e.getMessage());
   }
+
+  @ExceptionHandler(IllegalArgumentException.class)
+  @ResponseStatus(HttpStatus.BAD_REQUEST)
+  public ErroDTO handleIllegalArgumentException(IllegalArgumentException e) {
+    return new ErroDTO(e.getMessage());
+  }
 }
