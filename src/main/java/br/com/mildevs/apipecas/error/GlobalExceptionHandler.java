@@ -18,6 +18,6 @@ public class GlobalExceptionHandler {
   @ExceptionHandler(IllegalArgumentException.class)
   @ResponseStatus(HttpStatus.BAD_REQUEST)
   public ErroDTO handleIllegalArgumentException(IllegalArgumentException e) {
-    return new ErroDTO(e.getMessage());
+    return new ErroDTO("A categoria precisa ter um dos seguintes valores: FUNILARIA, MOTOR, PERFORMANCE, SOM");
   }
 }
