@@ -3,6 +3,7 @@ package br.com.mildevs.apipecas.controller;
 import java.util.List;
 
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.com.mildevs.apipecas.dto.PecaCreateDTO;
 import br.com.mildevs.apipecas.dto.PecaGetResponseDTO;
+import br.com.mildevs.apipecas.dto.PecaUpdateDTO;
 import br.com.mildevs.apipecas.service.PecaService;
 
 @RestController
@@ -39,5 +41,8 @@ public class PecaController {
     return service.criaPeca(novaPeca);
   }
 
-  
+  @PatchMapping(path = "/{idPecaAtualizada}")
+  public PecaUpdateDTO atualizarPeca(@RequestBody PecaUpdateDTO pecaAtualizada, @PathVariable long idPecaAtualizada) {
+    return service.atualizaPeca(pecaAtualizada, idPecaAtualizada);
+  }
 }
