@@ -30,6 +30,8 @@ public class PecaGetResponseDTO {
     this.categoria = categoria;
   }
 
+  public PecaGetResponseDTO() {}
+
   public long getId() {
     return id;
   }

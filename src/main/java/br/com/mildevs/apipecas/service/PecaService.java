@@ -1,10 +1,14 @@
 package br.com.mildevs.apipecas.service;
 
 import br.com.mildevs.apipecas.dto.PecaCreateDTO;
+import br.com.mildevs.apipecas.dto.PecaGetResponseDTO;
 import br.com.mildevs.apipecas.dto.PecaUpdateDTO;
 import br.com.mildevs.apipecas.entity.PecaEntity;
 import br.com.mildevs.apipecas.error.NumeroNegativoException;
 import br.com.mildevs.apipecas.repository.PecaRepository;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -61,5 +65,23 @@ public class PecaService {
     repository.save(pecaEntity);
 
     return pecaAtualizada;
+  }
+
+  public List<PecaGetResponseDTO> buscaPecaPorNome(String nomeProcurado) {
+    List<Optional<PecaEntity>> pecasEncontradasOptional = repository.findByNomeLike(
+      nomeProcurado
+    );
+
+    List<PecaGetResponseDTO> pecasEncontradasResponse = new ArrayList<>();
+
+    for (Optional<PecaEntity> pecaOptional : pecasEncontradasOptional) {
+      PecaEntity pecaEntity = pecaOptional.get();
+      PecaGetResponseDTO pecaResponseDTO = new PecaGetResponseDTO();
+      BeanUtils.copyProperties(pecaEntity, pecaResponseDTO);
+
+      pecasEncontradasResponse.add(pecaResponseDTO);
+    }
+
+    return pecasEncontradasResponse;
   }
 }
