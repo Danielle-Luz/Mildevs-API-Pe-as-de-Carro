@@ -1,6 +1,8 @@
 package br.com.mildevs.apipecas.dto;
 
-public class PecaUpdateDTO {
+import br.com.mildevs.apipecas.interfaces.PecaDTOGetters;
+
+public class PecaUpdateDTO implements PecaDTOGetters {
 
   private float precoCusto;
   private float precoVenda;

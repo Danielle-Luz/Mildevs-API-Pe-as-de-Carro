@@ -1,8 +1,9 @@
 package br.com.mildevs.apipecas.dto;
 
 import br.com.mildevs.apipecas.common.Categoria;
+import br.com.mildevs.apipecas.interfaces.PecaDTOGetters;
 
-public class PecaCreateDTO {
+public class PecaCreateDTO implements PecaDTOGetters {
 
   private String nome;
   private String modeloCarro;

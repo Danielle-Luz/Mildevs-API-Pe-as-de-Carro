@@ -5,6 +5,7 @@ import br.com.mildevs.apipecas.dto.PecaGetResponseDTO;
 import br.com.mildevs.apipecas.dto.PecaUpdateDTO;
 import br.com.mildevs.apipecas.entity.PecaEntity;
 import br.com.mildevs.apipecas.error.NumeroNegativoException;
+import br.com.mildevs.apipecas.interfaces.PecaDTOGetters;
 import br.com.mildevs.apipecas.repository.PecaRepository;
 import java.util.ArrayList;
 import java.util.List;
@@ -21,19 +22,7 @@ public class PecaService {
 
   public PecaCreateDTO criaPeca(PecaCreateDTO novaPeca)
     throws NumeroNegativoException, IllegalArgumentException {
-    if (novaPeca.getPrecoCusto() < 0) {
-      throw new NumeroNegativoException(
-        "O preço de custo deve ser um valor maior ou igual a zero"
-      );
-    } else if (novaPeca.getPrecoVenda() < 0) {
-      throw new NumeroNegativoException(
-        "O preço de venda deve ser um valor maior ou igual a zero"
-      );
-    } else if (novaPeca.getQuantidadeEstoque() < 0) {
-      throw new NumeroNegativoException(
-        "A quantidade em estoque deve ser um valor maior ou igual a zero"
-      );
-    }
+    emiteNumeroNegativoException(novaPeca);
 
     PecaEntity pecaEntity = new PecaEntity();
     BeanUtils.copyProperties(novaPeca, pecaEntity);
@@ -46,19 +35,7 @@ public class PecaService {
     PecaUpdateDTO pecaAtualizada,
     long idPecaAtualizada
   ) throws NumeroNegativoException {
-    if (pecaAtualizada.getPrecoCusto() < 0) {
-      throw new NumeroNegativoException(
-        "O preço de custo deve ser um valor maior ou igual a zero"
-      );
-    } else if (pecaAtualizada.getPrecoVenda() < 0) {
-      throw new NumeroNegativoException(
-        "O preço de venda deve ser um valor maior ou igual a zero"
-      );
-    } else if (pecaAtualizada.getQuantidadeEstoque() < 0) {
-      throw new NumeroNegativoException(
-        "A quantidade em estoque deve ser um valor maior ou igual a zero"
-      );
-    }
+    emiteNumeroNegativoException(pecaAtualizada);
 
     PecaEntity pecaEntity = repository.findById(idPecaAtualizada).get();
     BeanUtils.copyProperties(pecaAtualizada, pecaEntity);
@@ -67,20 +44,21 @@ public class PecaService {
     return pecaAtualizada;
   }
 
-  private List<PecaGetResponseDTO> converteListaOptionalParaListaPecasResponseDTO(
-    List<Optional<PecaEntity>> pecasEncontradasOptional
-  ) {
-    List<PecaGetResponseDTO> pecasEncontradasResponse = new ArrayList<>();
-
-    for (Optional<PecaEntity> pecaOptional : pecasEncontradasOptional) {
-      PecaEntity pecaEntity = pecaOptional.get();
-      PecaGetResponseDTO pecaResponseDTO = new PecaGetResponseDTO();
-      BeanUtils.copyProperties(pecaEntity, pecaResponseDTO);
-
-      pecasEncontradasResponse.add(pecaResponseDTO);
+  private void emiteNumeroNegativoException(PecaDTOGetters peca)
+    throws NumeroNegativoException {
+    if (peca.getPrecoCusto() < 0) {
+      throw new NumeroNegativoException(
+        "O preço de custo deve ser um valor maior ou igual a zero"
+      );
+    } else if (peca.getPrecoVenda() < 0) {
+      throw new NumeroNegativoException(
+        "O preço de venda deve ser um valor maior ou igual a zero"
+      );
+    } else if (peca.getQuantidadeEstoque() < 0) {
+      throw new NumeroNegativoException(
+        "A quantidade em estoque deve ser um valor maior ou igual a zero"
+      );
     }
-
-    return pecasEncontradasResponse;
   }
 
   public List<PecaGetResponseDTO> buscaPecaPorNome(String nomeProcurado) {
@@ -115,5 +93,21 @@ public class PecaService {
     return converteListaOptionalParaListaPecasResponseDTO(
       pecasEncontradasOptional
     );
+  }
+
+  private List<PecaGetResponseDTO> converteListaOptionalParaListaPecasResponseDTO(
+    List<Optional<PecaEntity>> pecasEncontradasOptional
+  ) {
+    List<PecaGetResponseDTO> pecasEncontradasResponse = new ArrayList<>();
+
+    for (Optional<PecaEntity> pecaOptional : pecasEncontradasOptional) {
+      PecaEntity pecaEntity = pecaOptional.get();
+      PecaGetResponseDTO pecaResponseDTO = new PecaGetResponseDTO();
+      BeanUtils.copyProperties(pecaEntity, pecaResponseDTO);
+
+      pecasEncontradasResponse.add(pecaResponseDTO);
+    }
+
+    return pecasEncontradasResponse;
   }
 }
