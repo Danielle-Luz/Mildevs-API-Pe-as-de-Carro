@@ -34,55 +34,27 @@ public class PecaGetResponseDTO {
     return id;
   }
 
-  public void setId(long id) {
-    this.id = id;
-  }
-
   public String getNome() {
     return nome;
-  }
-
-  public void setNome(String nome) {
-    this.nome = nome;
   }
 
   public String getModeloCarro() {
     return modeloCarro;
   }
 
-  public void setModeloCarro(String modeloCarro) {
-    this.modeloCarro = modeloCarro;
-  }
-
   public String getFabricante() {
     return fabricante;
-  }
-
-  public void setFabricante(String fabricante) {
-    this.fabricante = fabricante;
   }
 
   public float getPrecoVenda() {
     return precoVenda;
   }
 
-  public void setPrecoVenda(float precoVenda) {
-    this.precoVenda = precoVenda;
-  }
-
   public int getQuantidadeEstoque() {
     return quantidadeEstoque;
   }
 
-  public void setQuantidadeEstoque(int quantidadeEstoque) {
-    this.quantidadeEstoque = quantidadeEstoque;
-  }
-
   public Categoria getCategoria() {
     return categoria;
-  }
-
-  public void setCategoria(Categoria categoria) {
-    this.categoria = categoria;
   }
 }
