@@ -11,7 +11,8 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
 @Entity
-public class Peca {
+@Table(name = "Peca")
+public class PecaEntity {
 
   @Id
   @GeneratedValue(strategy = GenerationType.AUTO)
@@ -33,7 +34,7 @@ public class Peca {
   @Enumerated(EnumType.STRING)
   private Categoria categoria;
 
-  public Peca() {}
+  public PecaEntity() {}
 
   public long getId() {
     return id;
