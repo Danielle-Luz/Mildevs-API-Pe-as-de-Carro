@@ -2,6 +2,7 @@ package br.com.mildevs.apipecas.dto;
 
 import br.com.mildevs.apipecas.common.Categoria;
 import br.com.mildevs.apipecas.interfaces.PecaDTOGetters;
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 
 public class PecaCreateDTO implements PecaDTOGetters {
@@ -12,8 +13,11 @@ public class PecaCreateDTO implements PecaDTOGetters {
   private String modeloCarro;
   @NotBlank(message = "O fabricante é obrigatório")
   private String fabricante;
+  @Min(value = 0, message = "O preço de custo deve ser maior ou igual a 0")
   private float precoCusto;
+  @Min(value = 0, message = "O preço de venda deve ser maior ou igual a 0")
   private float precoVenda;
+  @Min(value = 0, message = "A quantidade em estoque mínima é 0")
   private int quantidadeEstoque;
   private Categoria categoria;
 
