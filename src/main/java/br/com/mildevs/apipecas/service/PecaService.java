@@ -48,7 +48,7 @@ public class PecaService {
   }
 
   public List<PecaGetResponseDTO> buscaPecaPorNome(String nomeProcurado) {
-    List<Optional<PecaEntity>> pecasEncontradasOptional = repository.findByNomeStartingWith(
+    List<Optional<PecaEntity>> pecasEncontradasOptional = repository.findByNomeIgnoreCaseStartingWith(
       nomeProcurado
     );
 
@@ -60,7 +60,7 @@ public class PecaService {
   public List<PecaGetResponseDTO> buscarPecaPeloModeloCarro(
     String modeloCarroBuscado
   ) {
-    List<Optional<PecaEntity>> pecasEncontradasOptional = repository.findByModeloCarro(
+    List<Optional<PecaEntity>> pecasEncontradasOptional = repository.findByModeloCarroIgnoreCase(
       modeloCarroBuscado
     );
 
