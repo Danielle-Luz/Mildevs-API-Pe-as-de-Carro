@@ -61,26 +61,44 @@ http://localhost:8080/pecas/1
 ```
 
 ### Listagem de peças (GET)
+
+#### Todas as peças cadastradas
+Para exibir todas as peças, basta dar um GET na base URL da api.
+
 #### Peças com uma dada categoria
-- As categorias que podem ser buscadas são: `FUNILARIA` `MOTOR`, `PERFORMANCE` e `SOM`.
-- A categoria buscada deve estar em letras maiúsculas.
 ```
 http://localhost:8080/pecas/{categoria_buscada}/categoria
-http://localhost:8080/pecas/FUNILARIA/categoria
 ```
+- Retorna todas as peças com a categoria buscada.
+- As categorias que podem ser buscadas são: `FUNILARIA` `MOTOR`, `PERFORMANCE` e `SOM`.
+- A categoria buscada deve estar em letras maiúsculas.
+- No exemplo abaixo, todas as peças com a categoria "FUNILARIA" são exibidas.
+
+  ```
+  http://localhost:8080/pecas/FUNILARIA/categoria
+  ```
 
 #### Peças cujos nomes começam com a palavra especificada
-Retorna todas as peças cujos nomes começam com "m", a busca não é case sensitive.
 ```
 http://localhost:8080/pecas/{palavra_buscada}/comeco
-http://localhost:8080/pecas/m/comeco
 ```
+* Retorna todas as peças cujos nomes começam com a palavra buscada, a busca não é case sensitive.
+* No exemplo abaixo, todas as peças cujos nomes começam com a letra "m" são exibidas.
+
+  ```
+  http://localhost:8080/pecas/m/comeco
+  ```
 
 #### Peças com um dado modelo de carro
 ```
 http://localhost:8080/pecas/{modelo_buscado}/modelo
-http://localhost:8080/pecas/sedan/modelo
 ```
+* Retorna todas as peças cujos modelos de carro são iguais ao modelo buscado, a busca não é case sensitive.
+* No exemplo abaixo, todas as peças cujos modelos de carro correspondem a "sedan" são exibidas.
+
+  ```
+  http://localhost:8080/pecas/sedan/modelo
+  ```
 
 #### Modelo de response
 Em todas as requisições GET, o preço de custo não é exibido.
