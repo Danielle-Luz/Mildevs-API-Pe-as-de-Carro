@@ -1,50 +1,77 @@
 package br.com.mildevs.apipecas.error;
 
+import br.com.mildevs.apipecas.dto.ErroDTO;
+import br.com.mildevs.apipecas.error.CategoriaInvalidaException;
 import java.util.ArrayList;
 import java.util.List;
-
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.MethodArgumentNotValidException;
-
-import br.com.mildevs.apipecas.dto.ErroDTO;
 
 @ControllerAdvice
 public class GlobalExceptionHandler {
-  @ExceptionHandler({NumeroNegativoException.class})
+
+  @ExceptionHandler({ NumeroNegativoException.class })
   @ResponseStatus(HttpStatus.UNPROCESSABLE_ENTITY)
   @ResponseBody
   public ErroDTO handleNumeroNegativoException(NumeroNegativoException e) {
     return new ErroDTO(e.getMessage());
   }
 
-  @ExceptionHandler({IllegalArgumentException.class})
+  @ExceptionHandler({ IllegalArgumentException.class })
   @ResponseStatus(HttpStatus.BAD_REQUEST)
   @ResponseBody
   public ErroDTO handleIllegalArgumentException(IllegalArgumentException e) {
-    return new ErroDTO("A categoria precisa ter um dos seguintes valores: FUNILARIA, MOTOR, PERFORMANCE, SOM");
+    return new ErroDTO(
+      "A categoria precisa ter um dos seguintes valores: FUNILARIA, MOTOR, PERFORMANCE, SOM"
+    );
   }
 
-  @ExceptionHandler({PecaNaoEncontradaException.class})
+  @ExceptionHandler({ PecaNaoEncontradaException.class })
   @ResponseStatus(HttpStatus.NOT_FOUND)
   @ResponseBody
-  public ErroDTO handlePecaNaoEncontradaException(PecaNaoEncontradaException e) {
-    return new ErroDTO(e.getMessage());  
+  public ErroDTO handlePecaNaoEncontradaException(
+    PecaNaoEncontradaException e
+  ) {
+    return new ErroDTO(e.getMessage());
   }
 
-  @ExceptionHandler({MethodArgumentNotValidException.class})
+  @ExceptionHandler({ MethodArgumentNotValidException.class })
   @ResponseStatus(HttpStatus.BAD_REQUEST)
   @ResponseBody
-  public List<ErroDTO> handleMethodArgumentNotValidException(MethodArgumentNotValidException e) {
+  public List<ErroDTO> handleMethodArgumentNotValidException(
+    MethodArgumentNotValidException e
+  ) {
     List<ErroDTO> listaErrosValidacao = new ArrayList<>();
 
-    e.getAllErrors().forEach((error) -> {
-      listaErrosValidacao.add(new ErroDTO(error.getDefaultMessage()));
-    });
+    e
+      .getAllErrors()
+      .forEach(error -> {
+        listaErrosValidacao.add(new ErroDTO(error.getDefaultMessage()));
+      });
 
     return listaErrosValidacao;
+  }
+
+  @ExceptionHandler({HttpMessageNotReadableException.class})
+  @ResponseStatus(HttpStatus.BAD_REQUEST)
+  @ResponseBody
+  public ErroDTO handleTipoInvalido(HttpMessageNotReadableException e) {
+    String mensagemAtualErro = e.getMessage();
+    String novaMensagem;
+
+    if(mensagemAtualErro.contains("Categoria")) {
+      novaMensagem = "A categoria só pode ter um dos seguintes valores: FUNILARIA, MOTOR, PERFORMANCE ou SOM";
+    } else if(mensagemAtualErro.contains("float")) {
+      novaMensagem = "As propriedades 'precoCusto' e 'precoVenda' aceitam apenas valores numéricos";
+    } else {
+      novaMensagem = "A propriedade 'quantidadeEstoque' aceita apenas valores inteiros";
+    }
+    return new ErroDTO(novaMensagem);
   }
 }

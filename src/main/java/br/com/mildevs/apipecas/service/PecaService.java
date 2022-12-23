@@ -4,7 +4,6 @@ import br.com.mildevs.apipecas.dto.PecaCreateDTO;
 import br.com.mildevs.apipecas.dto.PecaGetResponseDTO;
 import br.com.mildevs.apipecas.dto.PecaUpdateDTO;
 import br.com.mildevs.apipecas.entity.PecaEntity;
-import br.com.mildevs.apipecas.error.CategoriaInvalidaException;
 import br.com.mildevs.apipecas.error.NumeroNegativoException;
 import br.com.mildevs.apipecas.error.PecaNaoEncontradaException;
 import br.com.mildevs.apipecas.interfaces.PecaDTOGetters;
@@ -23,9 +22,8 @@ public class PecaService {
   PecaRepository repository;
 
   public PecaCreateDTO criaPeca(PecaCreateDTO novaPeca)
-    throws NumeroNegativoException, IllegalArgumentException, CategoriaInvalidaException {
+    throws NumeroNegativoException, IllegalArgumentException {
     emiteNumeroNegativoException(novaPeca);
-    emiteCategoriaInvalidaException(novaPeca);
 
     PecaEntity pecaEntity = new PecaEntity();
     BeanUtils.copyProperties(novaPeca, pecaEntity);
@@ -67,18 +65,6 @@ public class PecaService {
     } else if (peca.getQuantidadeEstoque() < 0) {
       throw new NumeroNegativoException(
         "A quantidade em estoque deve ser um valor maior ou igual a zero"
-      );
-    }
-  }
-
-  private void emiteCategoriaInvalidaException(PecaCreateDTO novaPeca)
-    throws CategoriaInvalidaException {
-    String categoriaPeca = novaPeca.getCategoria().name();
-    String categoriasValidas = "^(FUNILARIA|MOTOR|PERFORMANCE|SOM)$";
-
-    if (!categoriaPeca.matches(categoriasValidas)) {
-      throw new CategoriaInvalidaException(
-        "A categoria só pode ter um dos seguintes valores: FUNILARIA, MOTOR, PERFORMANCE ou SOM"
       );
     }
   }

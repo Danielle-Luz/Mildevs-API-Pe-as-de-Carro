@@ -3,7 +3,6 @@ package br.com.mildevs.apipecas.controller;
 import br.com.mildevs.apipecas.dto.PecaCreateDTO;
 import br.com.mildevs.apipecas.dto.PecaGetResponseDTO;
 import br.com.mildevs.apipecas.dto.PecaUpdateDTO;
-import br.com.mildevs.apipecas.error.CategoriaInvalidaException;
 import br.com.mildevs.apipecas.error.NumeroNegativoException;
 import br.com.mildevs.apipecas.error.PecaNaoEncontradaException;
 import br.com.mildevs.apipecas.service.PecaService;
@@ -51,7 +50,7 @@ public class PecaController {
   @PostMapping
   @ResponseStatus(HttpStatus.CREATED)
   public PecaCreateDTO criarPeca(@Valid @RequestBody PecaCreateDTO novaPeca)
-    throws NumeroNegativoException, IllegalArgumentException, CategoriaInvalidaException {
+    throws NumeroNegativoException, IllegalArgumentException {
     return service.criaPeca(novaPeca);
   }
 
