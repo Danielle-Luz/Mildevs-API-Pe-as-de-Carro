@@ -4,6 +4,7 @@ import br.com.mildevs.apipecas.common.Categoria;
 import br.com.mildevs.apipecas.interfaces.PecaDTOGetters;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
 
 public class PecaCreateDTO implements PecaDTOGetters {
 
@@ -19,6 +20,7 @@ public class PecaCreateDTO implements PecaDTOGetters {
   private float precoVenda;
   @Min(value = 0, message = "A quantidade em estoque mínima é 0")
   private int quantidadeEstoque;
+  @Pattern(regexp = "^(FUNILARIA|MOTOR|PERFORMANCE|SOM)$", message = "A categoria só pode ter um dos seguintes valores: FUNILARIA, MOTOR, PERFORMANCE ou SOM")
   private Categoria categoria;
 
   public PecaCreateDTO(
