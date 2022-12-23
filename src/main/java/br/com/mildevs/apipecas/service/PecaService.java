@@ -1,11 +1,11 @@
 package br.com.mildevs.apipecas.service;
 
+import br.com.mildevs.apipecas.common.Categoria;
 import br.com.mildevs.apipecas.dto.PecaCreateDTO;
 import br.com.mildevs.apipecas.dto.PecaGetResponseDTO;
 import br.com.mildevs.apipecas.dto.PecaUpdateDTO;
 import br.com.mildevs.apipecas.entity.PecaEntity;
-import br.com.mildevs.apipecas.error.NumeroNegativoException;
-import br.com.mildevs.apipecas.interfaces.PecaDTOGetters;
+import br.com.mildevs.apipecas.error.PecaNaoEncontradaException;
 import br.com.mildevs.apipecas.repository.PecaRepository;
 import java.util.ArrayList;
 import java.util.List;
@@ -21,9 +21,7 @@ public class PecaService {
   PecaRepository repository;
 
   public PecaCreateDTO criaPeca(PecaCreateDTO novaPeca)
-    throws NumeroNegativoException, IllegalArgumentException {
-    emiteNumeroNegativoException(novaPeca);
-
+    throws IllegalArgumentException {
     PecaEntity pecaEntity = new PecaEntity();
     BeanUtils.copyProperties(novaPeca, pecaEntity);
     repository.save(pecaEntity);
@@ -34,31 +32,19 @@ public class PecaService {
   public PecaUpdateDTO atualizaPeca(
     PecaUpdateDTO pecaAtualizada,
     long idPecaAtualizada
-  ) throws NumeroNegativoException {
-    emiteNumeroNegativoException(pecaAtualizada);
-
+  ) throws PecaNaoEncontradaException {
     PecaEntity pecaEntity = repository.findById(idPecaAtualizada).get();
+
+    if (pecaEntity == null) {
+      throw new PecaNaoEncontradaException(
+        "Não foi possível atualizar a peça, ela não foi encontrada"
+      );
+    }
+
     BeanUtils.copyProperties(pecaAtualizada, pecaEntity);
     repository.save(pecaEntity);
 
     return pecaAtualizada;
-  }
-
-  private void emiteNumeroNegativoException(PecaDTOGetters peca)
-    throws NumeroNegativoException {
-    if (peca.getPrecoCusto() < 0) {
-      throw new NumeroNegativoException(
-        "O preço de custo deve ser um valor maior ou igual a zero"
-      );
-    } else if (peca.getPrecoVenda() < 0) {
-      throw new NumeroNegativoException(
-        "O preço de venda deve ser um valor maior ou igual a zero"
-      );
-    } else if (peca.getQuantidadeEstoque() < 0) {
-      throw new NumeroNegativoException(
-        "A quantidade em estoque deve ser um valor maior ou igual a zero"
-      );
-    }
   }
 
   public List<PecaGetResponseDTO> buscaPecaPorNome(String nomeProcurado) {
@@ -84,7 +70,7 @@ public class PecaService {
   }
 
   public List<PecaGetResponseDTO> buscarPecaPelaCategoria(
-    String categoriaBuscada
+    Categoria categoriaBuscada
   ) {
     List<Optional<PecaEntity>> pecasEncontradasOptional = repository.findByCategoria(
       categoriaBuscada
@@ -100,13 +86,14 @@ public class PecaService {
   ) {
     List<PecaGetResponseDTO> pecasEncontradasResponse = new ArrayList<>();
 
-    for (Optional<PecaEntity> pecaOptional : pecasEncontradasOptional) {
+    pecasEncontradasOptional.forEach(pecaOptional -> {
       PecaEntity pecaEntity = pecaOptional.get();
       PecaGetResponseDTO pecaResponseDTO = new PecaGetResponseDTO();
       BeanUtils.copyProperties(pecaEntity, pecaResponseDTO);
-
+  
       pecasEncontradasResponse.add(pecaResponseDTO);
-    }
+
+    });
 
     return pecasEncontradasResponse;
   }
