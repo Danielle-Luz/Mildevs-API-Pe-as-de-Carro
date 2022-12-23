@@ -19,23 +19,14 @@ public class GlobalExceptionHandler {
   @ExceptionHandler({ NumeroNegativoException.class })
   @ResponseStatus(HttpStatus.UNPROCESSABLE_ENTITY)
   @ResponseBody
-  public ErroDTO handleNumeroNegativoException(NumeroNegativoException e) {
+  public ErroDTO handleNumeroNegativo(NumeroNegativoException e) {
     return new ErroDTO(e.getMessage());
-  }
-
-  @ExceptionHandler({ IllegalArgumentException.class })
-  @ResponseStatus(HttpStatus.BAD_REQUEST)
-  @ResponseBody
-  public ErroDTO handleIllegalArgumentException(IllegalArgumentException e) {
-    return new ErroDTO(
-      "A categoria precisa ter um dos seguintes valores: FUNILARIA, MOTOR, PERFORMANCE, SOM"
-    );
   }
 
   @ExceptionHandler({ PecaNaoEncontradaException.class })
   @ResponseStatus(HttpStatus.NOT_FOUND)
   @ResponseBody
-  public ErroDTO handlePecaNaoEncontradaException(
+  public ErroDTO handlePecaNaoEncontrada(
     PecaNaoEncontradaException e
   ) {
     return new ErroDTO(e.getMessage());
@@ -44,7 +35,7 @@ public class GlobalExceptionHandler {
   @ExceptionHandler({ MethodArgumentNotValidException.class })
   @ResponseStatus(HttpStatus.BAD_REQUEST)
   @ResponseBody
-  public List<ErroDTO> handleMethodArgumentNotValidException(
+  public List<ErroDTO> handleFalhaValidacao(
     MethodArgumentNotValidException e
   ) {
     List<ErroDTO> listaErrosValidacao = new ArrayList<>();
