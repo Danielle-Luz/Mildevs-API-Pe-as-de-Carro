@@ -1,4 +1,4 @@
-package br.com.mildevs.apipecas.error;
+package br.com.mildevs.apipecas.exception;
 
 public class PecaNaoEncontradaException extends Exception {
   public PecaNaoEncontradaException(String mensagem) {

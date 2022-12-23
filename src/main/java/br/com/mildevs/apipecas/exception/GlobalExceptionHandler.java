@@ -1,4 +1,4 @@
-package br.com.mildevs.apipecas.error;
+package br.com.mildevs.apipecas.exception;
 
 import br.com.mildevs.apipecas.dto.ErroDTO;
 import java.util.ArrayList;
@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -54,5 +55,12 @@ public class GlobalExceptionHandler {
         "A propriedade 'quantidadeEstoque' aceita apenas valores inteiros";
     }
     return new ErroDTO(novaMensagem);
+  }
+
+  @ExceptionHandler(MethodArgumentTypeMismatchException.class)
+  @ResponseStatus(HttpStatus.NOT_FOUND)
+  @ResponseBody
+  public ErroDTO handleCategoriaPesquisada(MethodArgumentTypeMismatchException e) {
+    return new ErroDTO("A categoria buscada só pode ter um dos seguintes valores: FUNILARIA, MOTOR, PERFORMANCE ou SOM");
   }
 }
