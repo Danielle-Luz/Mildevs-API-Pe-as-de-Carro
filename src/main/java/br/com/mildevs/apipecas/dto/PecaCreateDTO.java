@@ -2,15 +2,23 @@ package br.com.mildevs.apipecas.dto;
 
 import br.com.mildevs.apipecas.common.Categoria;
 import br.com.mildevs.apipecas.interfaces.PecaDTOGetters;
+import jakarta.validation.constraints.NotBlank;
 
 public class PecaCreateDTO implements PecaDTOGetters {
 
+  @NotBlank
   private String nome;
+  @NotBlank
   private String modeloCarro;
+  @NotBlank
   private String fabricante;
+  @NotBlank
   private float precoCusto;
+  @NotBlank
   private float precoVenda;
+  @NotBlank
   private int quantidadeEstoque;
+  @NotBlank
   private Categoria categoria;
 
   public PecaCreateDTO(

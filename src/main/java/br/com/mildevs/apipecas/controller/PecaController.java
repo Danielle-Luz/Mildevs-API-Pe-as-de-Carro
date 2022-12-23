@@ -5,6 +5,8 @@ import br.com.mildevs.apipecas.dto.PecaGetResponseDTO;
 import br.com.mildevs.apipecas.dto.PecaUpdateDTO;
 import br.com.mildevs.apipecas.error.NumeroNegativoException;
 import br.com.mildevs.apipecas.service.PecaService;
+import jakarta.validation.Valid;
+
 import java.util.List;
 import org.springframework.http.HttpStatus;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,7 +49,7 @@ public class PecaController {
 
   @PostMapping
   @ResponseStatus(HttpStatus.CREATED)
-  public PecaCreateDTO criarPeca(@RequestBody PecaCreateDTO novaPeca)
+  public PecaCreateDTO criarPeca(@Valid @RequestBody PecaCreateDTO novaPeca)
     throws NumeroNegativoException, IllegalArgumentException {
     return service.criaPeca(novaPeca);
   }
