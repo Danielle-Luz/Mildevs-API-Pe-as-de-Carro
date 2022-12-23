@@ -86,13 +86,14 @@ public class PecaService {
   ) {
     List<PecaGetResponseDTO> pecasEncontradasResponse = new ArrayList<>();
 
-    for (Optional<PecaEntity> pecaOptional : pecasEncontradasOptional) {
+    pecasEncontradasOptional.forEach(pecaOptional -> {
       PecaEntity pecaEntity = pecaOptional.get();
       PecaGetResponseDTO pecaResponseDTO = new PecaGetResponseDTO();
       BeanUtils.copyProperties(pecaEntity, pecaResponseDTO);
-
+  
       pecasEncontradasResponse.add(pecaResponseDTO);
-    }
+
+    });
 
     return pecasEncontradasResponse;
   }
