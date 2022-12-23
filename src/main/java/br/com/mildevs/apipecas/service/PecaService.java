@@ -1,5 +1,6 @@
 package br.com.mildevs.apipecas.service;
 
+import br.com.mildevs.apipecas.common.Categoria;
 import br.com.mildevs.apipecas.dto.PecaCreateDTO;
 import br.com.mildevs.apipecas.dto.PecaGetResponseDTO;
 import br.com.mildevs.apipecas.dto.PecaUpdateDTO;
@@ -69,7 +70,7 @@ public class PecaService {
   }
 
   public List<PecaGetResponseDTO> buscarPecaPelaCategoria(
-    String categoriaBuscada
+    Categoria categoriaBuscada
   ) {
     List<Optional<PecaEntity>> pecasEncontradasOptional = repository.findByCategoria(
       categoriaBuscada

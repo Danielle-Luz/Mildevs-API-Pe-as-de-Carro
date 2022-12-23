@@ -1,5 +1,6 @@
 package br.com.mildevs.apipecas.controller;
 
+import br.com.mildevs.apipecas.common.Categoria;
 import br.com.mildevs.apipecas.dto.PecaCreateDTO;
 import br.com.mildevs.apipecas.dto.PecaGetResponseDTO;
 import br.com.mildevs.apipecas.dto.PecaUpdateDTO;
@@ -25,23 +26,23 @@ public class PecaController {
   @Autowired
   PecaService service;
 
-  @GetMapping(path = "{texto}/comeco")
+  @GetMapping(path = "/{texto}/comeco")
   public List<PecaGetResponseDTO> buscarPecaPeloNome(
     @PathVariable String texto
   ) {
     return service.buscaPecaPorNome(texto);
   }
 
-  @GetMapping(path = "{modelo}/modelo")
+  @GetMapping(path = "/{modelo}/modelo")
   public List<PecaGetResponseDTO> buscarPecaPeloModeloCarro(
     @PathVariable String modelo
   ) {
     return service.buscarPecaPeloModeloCarro(modelo);
   }
 
-  @GetMapping(path = "{categoria}/categoria")
+  @GetMapping(path = "/{categoria}/categoria")
   public List<PecaGetResponseDTO> buscarPelaCategoria(
-    @PathVariable String categoria
+    @PathVariable Categoria categoria
   ) {
     return service.buscarPecaPelaCategoria(categoria);
   }
@@ -55,7 +56,7 @@ public class PecaController {
 
   @PatchMapping(path = "/{idPecaAtualizada}")
   public PecaUpdateDTO atualizarPeca(
-    @RequestBody PecaUpdateDTO pecaAtualizada,
+    @Valid @RequestBody PecaUpdateDTO pecaAtualizada,
     @PathVariable long idPecaAtualizada
   ) throws PecaNaoEncontradaException {
     return service.atualizaPeca(pecaAtualizada, idPecaAtualizada);

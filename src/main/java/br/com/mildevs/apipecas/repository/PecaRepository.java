@@ -1,5 +1,6 @@
 package br.com.mildevs.apipecas.repository;
 
+import br.com.mildevs.apipecas.common.Categoria;
 import br.com.mildevs.apipecas.entity.PecaEntity;
 import java.util.List;
 import java.util.Optional;
@@ -12,5 +13,5 @@ public interface PecaRepository extends CrudRepository<PecaEntity, Long> {
 
   List<Optional<PecaEntity>> findByModeloCarro(String modeloCarro);
 
-  List<Optional<PecaEntity>> findByCategoria(String categoria);
+  List<Optional<PecaEntity>> findByCategoria(Categoria categoria);
 }
