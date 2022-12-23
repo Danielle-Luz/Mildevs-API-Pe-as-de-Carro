@@ -6,19 +6,15 @@ import jakarta.validation.constraints.NotBlank;
 
 public class PecaCreateDTO implements PecaDTOGetters {
 
-  @NotBlank
+  @NotBlank(message = "O nome é obrigatório")
   private String nome;
-  @NotBlank
+  @NotBlank(message = "O modelo do carro do carro é obrigatório")
   private String modeloCarro;
-  @NotBlank
+  @NotBlank(message = "O fabricante é obrigatório")
   private String fabricante;
-  @NotBlank
   private float precoCusto;
-  @NotBlank
   private float precoVenda;
-  @NotBlank
   private int quantidadeEstoque;
-  @NotBlank
   private Categoria categoria;
 
   public PecaCreateDTO(
