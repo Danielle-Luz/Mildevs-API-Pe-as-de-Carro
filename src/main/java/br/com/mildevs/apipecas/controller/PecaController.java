@@ -4,6 +4,7 @@ import br.com.mildevs.apipecas.dto.PecaCreateDTO;
 import br.com.mildevs.apipecas.dto.PecaGetResponseDTO;
 import br.com.mildevs.apipecas.dto.PecaUpdateDTO;
 import br.com.mildevs.apipecas.error.NumeroNegativoException;
+import br.com.mildevs.apipecas.error.PecaNaoEncontradaException;
 import br.com.mildevs.apipecas.service.PecaService;
 import jakarta.validation.Valid;
 
@@ -58,7 +59,7 @@ public class PecaController {
   public PecaUpdateDTO atualizarPeca(
     @RequestBody PecaUpdateDTO pecaAtualizada,
     @PathVariable long idPecaAtualizada
-  ) throws NumeroNegativoException {
+  ) throws NumeroNegativoException, PecaNaoEncontradaException {
     return service.atualizaPeca(pecaAtualizada, idPecaAtualizada);
   }
 }

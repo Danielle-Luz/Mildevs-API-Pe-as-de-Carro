@@ -5,6 +5,7 @@ import br.com.mildevs.apipecas.dto.PecaGetResponseDTO;
 import br.com.mildevs.apipecas.dto.PecaUpdateDTO;
 import br.com.mildevs.apipecas.entity.PecaEntity;
 import br.com.mildevs.apipecas.error.NumeroNegativoException;
+import br.com.mildevs.apipecas.error.PecaNaoEncontradaException;
 import br.com.mildevs.apipecas.interfaces.PecaDTOGetters;
 import br.com.mildevs.apipecas.repository.PecaRepository;
 import java.util.ArrayList;
@@ -34,10 +35,17 @@ public class PecaService {
   public PecaUpdateDTO atualizaPeca(
     PecaUpdateDTO pecaAtualizada,
     long idPecaAtualizada
-  ) throws NumeroNegativoException {
+  ) throws NumeroNegativoException, PecaNaoEncontradaException {
     emiteNumeroNegativoException(pecaAtualizada);
 
     PecaEntity pecaEntity = repository.findById(idPecaAtualizada).get();
+
+    if (pecaEntity == null) {
+      throw new PecaNaoEncontradaException(
+        "Não foi possível atualizar a peça, ela não foi encontrada"
+      );
+    }
+
     BeanUtils.copyProperties(pecaAtualizada, pecaEntity);
     repository.save(pecaEntity);
 

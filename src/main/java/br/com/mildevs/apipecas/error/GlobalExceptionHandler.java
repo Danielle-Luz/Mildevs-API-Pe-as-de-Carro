@@ -23,4 +23,11 @@ public class GlobalExceptionHandler {
   public ErroDTO handleIllegalArgumentException(IllegalArgumentException e) {
     return new ErroDTO("A categoria precisa ter um dos seguintes valores: FUNILARIA, MOTOR, PERFORMANCE, SOM");
   }
+
+  @ExceptionHandler({PecaNaoEncontradaException.class})
+  @ResponseStatus(HttpStatus.NOT_FOUND)
+  @ResponseBody
+  public ErroDTO handlePecaNaoEncontradaException(PecaNaoEncontradaException e) {
+    return new ErroDTO(e.getMessage());  
+  }
 }
