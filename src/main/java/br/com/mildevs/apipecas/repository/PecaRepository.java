@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface PecaRepository extends CrudRepository<PecaEntity, Long> {
-  List<Optional<PecaEntity>> findByNomeLike(String nome);
+  List<Optional<PecaEntity>> findByNomeStartingWith(String nome);
 
   List<Optional<PecaEntity>> findByModeloCarro(String modeloCarro);
 

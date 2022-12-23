@@ -48,7 +48,7 @@ public class PecaService {
   }
 
   public List<PecaGetResponseDTO> buscaPecaPorNome(String nomeProcurado) {
-    List<Optional<PecaEntity>> pecasEncontradasOptional = repository.findByNomeLike(
+    List<Optional<PecaEntity>> pecasEncontradasOptional = repository.findByNomeStartingWith(
       nomeProcurado
     );
 
@@ -90,9 +90,8 @@ public class PecaService {
       PecaEntity pecaEntity = pecaOptional.get();
       PecaGetResponseDTO pecaResponseDTO = new PecaGetResponseDTO();
       BeanUtils.copyProperties(pecaEntity, pecaResponseDTO);
-  
-      pecasEncontradasResponse.add(pecaResponseDTO);
 
+      pecasEncontradasResponse.add(pecaResponseDTO);
     });
 
     return pecasEncontradasResponse;
