@@ -4,9 +4,7 @@ import br.com.mildevs.apipecas.dto.PecaCreateDTO;
 import br.com.mildevs.apipecas.dto.PecaGetResponseDTO;
 import br.com.mildevs.apipecas.dto.PecaUpdateDTO;
 import br.com.mildevs.apipecas.entity.PecaEntity;
-import br.com.mildevs.apipecas.error.NumeroNegativoException;
 import br.com.mildevs.apipecas.error.PecaNaoEncontradaException;
-import br.com.mildevs.apipecas.interfaces.PecaDTOGetters;
 import br.com.mildevs.apipecas.repository.PecaRepository;
 import java.util.ArrayList;
 import java.util.List;
@@ -22,9 +20,7 @@ public class PecaService {
   PecaRepository repository;
 
   public PecaCreateDTO criaPeca(PecaCreateDTO novaPeca)
-    throws NumeroNegativoException, IllegalArgumentException {
-    emiteNumeroNegativoException(novaPeca);
-
+    throws IllegalArgumentException {
     PecaEntity pecaEntity = new PecaEntity();
     BeanUtils.copyProperties(novaPeca, pecaEntity);
     repository.save(pecaEntity);
@@ -35,9 +31,7 @@ public class PecaService {
   public PecaUpdateDTO atualizaPeca(
     PecaUpdateDTO pecaAtualizada,
     long idPecaAtualizada
-  ) throws NumeroNegativoException, PecaNaoEncontradaException {
-    emiteNumeroNegativoException(pecaAtualizada);
-
+  ) throws PecaNaoEncontradaException {
     PecaEntity pecaEntity = repository.findById(idPecaAtualizada).get();
 
     if (pecaEntity == null) {
@@ -50,23 +44,6 @@ public class PecaService {
     repository.save(pecaEntity);
 
     return pecaAtualizada;
-  }
-
-  private void emiteNumeroNegativoException(PecaDTOGetters peca)
-    throws NumeroNegativoException {
-    if (peca.getPrecoCusto() < 0) {
-      throw new NumeroNegativoException(
-        "O preço de custo deve ser um valor maior ou igual a zero"
-      );
-    } else if (peca.getPrecoVenda() < 0) {
-      throw new NumeroNegativoException(
-        "O preço de venda deve ser um valor maior ou igual a zero"
-      );
-    } else if (peca.getQuantidadeEstoque() < 0) {
-      throw new NumeroNegativoException(
-        "A quantidade em estoque deve ser um valor maior ou igual a zero"
-      );
-    }
   }
 
   public List<PecaGetResponseDTO> buscaPecaPorNome(String nomeProcurado) {
