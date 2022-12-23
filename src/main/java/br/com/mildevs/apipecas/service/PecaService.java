@@ -5,7 +5,7 @@ import br.com.mildevs.apipecas.dto.PecaCreateDTO;
 import br.com.mildevs.apipecas.dto.PecaGetResponseDTO;
 import br.com.mildevs.apipecas.dto.PecaUpdateDTO;
 import br.com.mildevs.apipecas.entity.PecaEntity;
-import br.com.mildevs.apipecas.error.PecaNaoEncontradaException;
+import br.com.mildevs.apipecas.exception.PecaNaoEncontradaException;
 import br.com.mildevs.apipecas.repository.PecaRepository;
 import java.util.ArrayList;
 import java.util.List;
