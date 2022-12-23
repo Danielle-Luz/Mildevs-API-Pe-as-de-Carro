@@ -26,6 +26,11 @@ public class PecaController {
   @Autowired
   PecaService service;
 
+  @GetMapping
+  public List<PecaGetResponseDTO> buscaTodasPecas() {
+    return service.buscaTodasPecas();
+  }
+
   @GetMapping(path = "/{texto}/comeco")
   public List<PecaGetResponseDTO> buscarPecaPeloNome(
     @PathVariable String texto

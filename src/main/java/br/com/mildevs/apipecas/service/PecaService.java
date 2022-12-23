@@ -47,6 +47,14 @@ public class PecaService {
     return pecaAtualizada;
   }
 
+  public List<PecaGetResponseDTO> buscaTodasPecas() {
+    List<Optional<PecaEntity>> pecasEncontradasOptional = repository.mostrarTodasPecas();
+
+    return converteListaOptionalParaListaPecasResponseDTO(
+      pecasEncontradasOptional
+    );
+  }
+
   public List<PecaGetResponseDTO> buscaPecaPorNome(String nomeProcurado) {
     List<Optional<PecaEntity>> pecasEncontradasOptional = repository.findByNomeIgnoreCaseStartingWith(
       nomeProcurado
